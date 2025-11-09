@@ -1,0 +1,294 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Пермский подшипник</title>
+    <link rel="stylesheet" href="StyleSheet1.css">
+</head>
+<body>
+    <center>
+        <font size="14">
+            <b>
+                mail@permskypodshipnik.ru +73424209510 +79824561081 +79954781855
+            </b>
+            <br />
+            <b>
+
+                <a href="podshipniki.html">Подшипники   </a>
+            </b>
+            <b>
+                <a href="uzel.html">Узлы подшипниковые   </a>
+
+            </b>
+            <b>
+                <a href="vtulki.html"> Втулки   </a>
+            </b>
+            <b>
+                <a href="manget.html"> Манжеты   </a>
+            </b>
+            <h1 style="line-height:0.5;">
+                ПЕРМСКИЙ ПОДШИПНИК
+                <br>
+                <font size="8">
+                    г.Пермь ул.Луначарского, 105
+                </font>
+            </h1>
+            <p>
+                В магазине "Пермский подшипник",  всегда можно найти товары по адекватной цене, а также получить консультацию у опытных специалистов
+            </p>
+            <p>
+                <a href="https://www.tdkvmk.com/">Перейти на официальный сайт</a>
+
+            </p>
+            <div align="left">
+                <h1>
+                    Наши товары:
+                </h1>
+                <ul style="list-style-type:square;">
+                    <li>Подшипники</li>
+                    <li>Узлы подшипниковые</li>
+                    <li>Втулки</li>
+                    <li>Манжеты</li>
+                    <li>Муфты</li>
+                    <li>Автозапчасти</li>
+                </ul>
+                <h1>
+                    Основная информация:
+                </h1>
+                <ol>
+                    <li>Адрес: г.Пермь, ул.Луначарского, 105</li>
+                    <li>
+                        Режим работы
+                        <table class="working-schedule">
+                            <tr>
+                                <td>Пн</td>
+                                <td rowspan="4" class="work-time">10:00 - 20:00</td>
+                            </tr>
+                            <tr>
+                                <td>Вт</td>
+                            </tr>
+                            <tr>
+                                <td>Ср</td>
+                            </tr>
+                            <tr>
+                                <td>Чт</td>
+                            </tr>
+                            <tr>
+                                <td>Пт</td>
+                                <td class="friday-time">10:00 - 18:00</td>
+                            </tr>
+                            <tr>
+                                <td>Сб</td>
+                                <td rowspan="2" class="weekend">Выходной</td>
+                            </tr>
+                            <tr>
+                                <td>Вс</td>
+                            </tr>
+                        </table>
+
+                    </li>
+                    <li>Номер телефона администатора: +79824561081</li>
+                </ol>
+            </div>
+        </font>
+    </center>
+
+    <h1>Подбор подшипников</h1>
+    
+    <div class="form-block">   <! создает прямоугольную область для формы -->
+        <h3>Параметры подшипника</h3>
+
+        <label>Тип подшипника:</label>
+        <select id="type"> <! создаёт выпадающий список -->
+            <option value="">Выберите тип</option>
+            <option value="radial">Радиальный</option>
+            <option value="roller">Роликовый</option>
+            <option value="thrust">Упорный</option>
+        </select>
+
+        <label>Внутренний диаметр (мм):</label>
+        <input type="number" id="diameter" placeholder="25"> <! создание поля для ввода диаметра -->
+
+        <label>Нагрузка:</label>
+        <select id="load">
+            <option value="">Выберите нагрузку</option>
+            <option value="light">Легкая</option>
+            <option value="medium">Средняя</option>
+            <option value="heavy">Тяжелая</option>
+        </select>
+
+        <button onclick="findBearings()">Найти подшипники</button>
+    </div>
+
+    <div id="results" class="form-block hidden"> <! результат поиска -->
+        <h3>Результаты поиска</h3>
+        <div id="bearingList"></div>
+    </div>
+
+    <div id="orderForm" class="form-block hidden"> <! создание формы для оформления заказа -->
+        <h3>Оформление заказа</h3>
+
+        <label>Ваше имя:</label>
+        <input type="text" id="name" required>
+
+        <label>Телефон:</label>
+        <input type="tel" id="phone" required>
+
+        <label>Количество:</label>
+        <input type="number" id="quantity" value="1" min="1">
+
+        <button onclick="sendOrder()">Отправить заказ</button>
+        <button onclick="backToSearch()" style="background: gray;">Назад</button>
+    </div>
+
+    <script>
+        // массив (список) в котором хранятся подшипники
+        const bearings = [
+            { id: 1, type: "radial", name: "Подшипник 6005", diameter: 25, load: "light", price: 250 },
+            { id: 2, type: "radial", name: "Подшипник 6205", diameter: 25, load: "medium", price: 250 },
+            { id: 3, type: "roller", name: "Подшипник NU205", diameter: 25, load: "heavy", price: 950 },
+            { id: 4, type: "radial", name: "Подшипник 6006", diameter: 30, load: "light", price: 250 },
+            { id: 5, type: "thrust", name: "Подшипник 51105", diameter: 25, load: "medium", price: 300 }
+        ];
+
+        let selectedBearing = null; // переменная для хранения выбранного подшипника
+
+        function findBearings() { // функция для поиска подшипников
+            const type = document.getElementById("type").value; // получает выбранный тип подшипника из выпадающего списка
+            const diameter = parseInt(document.getElementById("diameter").value); // получает диаметр из поля ввода и превращает в число
+            const load = document.getElementById("load").value; // получает выбранную нагркзку из выпадающего списка
+
+            if (!type || !diameter || !load) { // проверяем, что все поля заполнены
+                alert("Пожалуйста, заполните все поля");
+                return;
+            }
+
+            // фильтрует подшипники, оставляет только те из массива, которые подходят по заданным параметрам
+            const foundBearings = bearings.filter(b => {
+                return b.type === type &&
+                    b.diameter === diameter &&
+                    b.load === load;
+            });
+
+            showResults(foundBearings); // вызов функции для показов результата
+        }
+
+        function showResults(foundBearings) { // фкнкция показа результата
+            const resultsDiv = document.getElementById("results"); // находит блок для результата
+            const listDiv = document.getElementById("bearingList");
+
+            listDiv.innerHTML = ""; // очищает результат поиска
+
+            // проверка есть ли подходащие подшипники
+            if (foundBearings.length === 0) { 
+                listDiv.innerHTML = "<p>Подшипники не найдены</p>";
+            }
+            else {
+                foundBearings.forEach(bearing => {
+                    const bearingDiv = document.createElement("div");
+                    bearingDiv.className = "result";
+
+                    // создание соучайной скидки от 0 до 20%
+                    let randomDiscount = Math.round(Math.random() * 20);
+
+                    // заполняем карточку информацией о подшипнике
+                    bearingDiv.innerHTML = `
+                            <h4>${bearing.name}</h4>
+                            <p>Цена: ${bearing.price} руб.</p>
+                            <p style="color: green;"> Случайная скидка: ${randomDiscount}%</p>
+                            <button onclick="selectBearing(${bearing.id}, ${randomDiscount})">Выбрать</button>
+                        `;
+                    listDiv.appendChild(bearingDiv); //создает карточку на странице
+                });
+            }
+
+            resultsDiv.classList.remove("hidden");
+        }
+
+        function selectBearing(bearingId, discount) { // функция для выбора конкретного подшипника
+           
+            selectedBearing = bearings.find(b => b.id === bearingId);  // ищет подшипник в массиве и сохраняет в переменную
+            selectedBearing.discount = discount; // добавляем скидку к подшипнику
+
+            document.getElementById("results").classList.add("hidden");
+            document.getElementById("orderForm").classList.remove("hidden");
+        }
+
+        function sendOrder() { // функция для отправки заказа
+            const name = document.getElementById("name").value;
+            const phone = document.getElementById("phone").value;
+            const quantity = document.getElementById("quantity").value;
+
+            if (!name || !phone) {
+                alert("Заполните имя и телефон");
+                return;
+            }
+
+            if (!selectedBearing) {
+                alert("Ошибка: подшипник не выбран");
+                return;
+            }
+
+       
+            // new Date() создает объект с текущей датой и временем
+            let currentDate = new Date();
+
+            // toLocaleDateString() делает красивую дату в русском формате
+            let beautifulDate = currentDate.toLocaleDateString('ru-RU');
+
+            // toLocaleTimeString() делает красивое время в русском формате
+            let beautifulTime = currentDate.toLocaleTimeString('ru-RU');
+
+            // Расчет цены со скидкой с помощью Math
+            let totalPrice = selectedBearing.price * quantity; // цена без скидки
+            let discountAmount = Math.round(totalPrice * selectedBearing.discount / 100); // сумма скидки в рублях
+            let finalPrice = totalPrice - discountAmount; // цена со скидкой
+
+            // Показываем результат с датой и расчетами
+            alert(`Заказ отправлен!\n\n` +
+                ` Дата заказа: ${beautifulDate}\n` +
+                ` Время заказа: ${beautifulTime}\n\n` +
+                ` Подшипник: ${selectedBearing.name}\n` +
+                ` Количество: ${quantity} шт.\n` +
+                ` Цена за штуку: ${selectedBearing.price} руб.\n` +
+                ` Скидка: ${selectedBearing.discount}% (${discountAmount} руб.)\n` +
+                ` Итоговая цена: ${finalPrice} руб.\n\n` +
+                ` Мы позвоним вам: ${phone}`);
+
+            // Очищаем форму
+            resetForm();
+        }
+
+        function backToSearch() { // функция для возврата к поиску (кнопка Назад)
+            document.getElementById("orderForm").classList.add("hidden");
+            document.getElementById("results").classList.remove("hidden");
+        }
+
+        function resetForm() { // функция для сброса всей формы к начальному состоянию
+            document.getElementById("type").value = "";
+            document.getElementById("diameter").value = "";
+            document.getElementById("load").value = "";
+            document.getElementById("name").value = "";
+            document.getElementById("phone").value = "";
+            document.getElementById("quantity").value = "1";
+
+            document.getElementById("orderForm").classList.add("hidden");
+            document.getElementById("results").classList.add("hidden");
+
+            selectedBearing = null;
+        }
+    </script>
+
+
+    <center>
+        <br />
+        <br />
+        <img src="gif.gif"
+             alt="Анимация" style="width: 800px;margin-right:15px;" />
+    </center>
+    <font size="5">
+        <a href="freme.html"> Все товары на одной странице </a>
+    </font>
+</body>
+</html>

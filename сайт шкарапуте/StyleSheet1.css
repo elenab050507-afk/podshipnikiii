@@ -1,0 +1,84 @@
+﻿body {
+    background-image: url('fon.jpg');
+    background-repeat: repeat;
+    background-size: cover;
+}
+h1 {
+    font-size: 100px;
+    color: #f60a0a; 
+}
+p {
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+    font-size: 50px;
+}
+.working-schedule {
+    border-collapse: collapse;
+    width: 320px;
+    font-family: "Times New Roman", sans-serif;
+    border: 1px solid #ddd;
+}
+
+.working-schedule td {
+    padding: 14px 20px;
+    border: 1px solid #eee;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.working-schedule td:first-child {
+    text-align: center;
+    font-weight: bold;
+    width: 60px;
+    background-color: #f9f9f9;
+}
+
+.work-time, .friday-time {
+    text-align: center;
+    font-weight: bold;
+    color: #000000;
+    min-width: 120px;
+}
+
+.friday-time {
+    color: #f60a0a; 
+}
+
+.weekend {
+    text-align: center;
+    font-style: italic;
+    color: #892222;
+    background-color: #fff5f5;
+}
+
+
+label{
+    font-size: 20px;
+}
+
+
+h3 {
+    font-size: 36px; /* Увеличил подзаголовки */
+}
+
+label {
+    font-size: 30px; /* Увеличил надписи */
+}
+
+input, select {
+    font-size: 18px; /* Увеличил текст в полях ввода */
+    padding: 10px; /* Сделал поля больше */
+}
+
+button {
+    font-size: 18px; /* Увеличил текст на кнопках */
+    padding: 12px 24px; /* Сделал кнопки больше */
+}
+
+.result h4 {
+    font-size: 20px; /* Увеличил названия подшипников */
+}
+
+.result p {
+    font-size: 18px; /* Увеличил цену */
+}
